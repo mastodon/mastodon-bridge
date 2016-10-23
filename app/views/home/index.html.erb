@@ -1,0 +1,26 @@
+<ul>
+  <li><%= link_to "Sign in with Twitter", user_twitter_omniauth_authorize_path %></li>
+  <li><%= link_to "Sign in with Mastodon", user_mastodon_omniauth_authorize_path %></li>
+</li>
+
+<% if user_signed_in? %>
+  <p>You are signed in:</p>
+
+  <table>
+    <tbody>
+      <tr>
+        <th>Twitter</th>
+        <td><%= current_user.authorizations.find_by(provider: :twitter).try(:uid) %></td>
+      </tr>
+
+      <tr>
+        <th>Mastodon</th>
+        <td><%= current_user.authorizations.find_by(provider: :mastodon).try(:uid) %></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p><%= link_to "Find friends on Mastodon", friends_path %></p>
+<% else %>
+  <p>You are not signed in</p>
+<% end %>

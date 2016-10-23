@@ -1,0 +1,17 @@
+<table>
+  <thead>
+    <tr>
+      <th>Twitter user</th>
+      <th>Mastodon user</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @friends.each do |user| %>
+      <tr>
+        <td><%= @twitter_map[user.authorizations.find_by(provider: :twitter).uid].screen_name %></td>
+        <td><%= user.authorizations.find_by(provider: :mastodon).try(:uid) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
