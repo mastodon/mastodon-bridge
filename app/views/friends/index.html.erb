@@ -3,14 +3,16 @@
     <tr>
       <th>Twitter user</th>
       <th>Mastodon user</th>
+      <th></th>
     </tr>
   </thead>
 
   <tbody>
     <% @friends.each do |user| %>
       <tr>
-        <td><%= @twitter_map[user.authorizations.find_by(provider: :twitter).uid].screen_name %></td>
+        <td><%= user.authorizations.find_by(provider: :twitter).uid %></td>
         <td><%= user.authorizations.find_by(provider: :mastodon).try(:uid) %></td>
+        <td><%= link_to "Follow", follow_friend_path(user) %></td>
       </tr>
     <% end %>
   </tbody>
