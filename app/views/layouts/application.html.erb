@@ -3,11 +3,18 @@
   <head>
     <title>MastodonBridge</title>
     <%= csrf_meta_tags %>
-
     <%= stylesheet_link_tag    'application', media: 'all' %>
   </head>
 
   <body>
+    <% if flash[:notice] %>
+      <p><strong><%= flash[:notice] %></strong></p>
+    <% end %>
+
+    <% if flash[:alert] %>
+      <p><strong><%= flash[:alert] %></strong></p>
+    <% end %>
+
     <%= yield %>
   </body>
 </html>

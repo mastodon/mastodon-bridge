@@ -12,7 +12,7 @@ class FriendsController < ApplicationController
     user = User.find(params[:id])
     mastodon_uid = user.authorizations.find_by(provider: :mastodon).uid
     mastodon_client.follow_by_uri(mastodon_uid)
-    redirect_to friends_path
+    redirect_to friends_path, notice: "Successfully followed #{mastodon_uid} from your Mastodon account"
   end
 
   private
