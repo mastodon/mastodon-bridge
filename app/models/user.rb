@@ -6,7 +6,7 @@ class User < ApplicationRecord
   class << self
     def from_omniauth(auth, current_user)
       authorization = Authorization.where(provider: auth.provider, uid: auth.uid.to_s).first_or_initialize
-      user = current_user || User.new
+      user = current_user || authorization.user || User.new
       authorization.user   = user
       authorization.token  = auth.credentials.token
       authorization.secret = auth.credentials.secret
