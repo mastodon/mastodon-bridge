@@ -9,7 +9,7 @@ gem 'mastodon-api', require: 'mastodon'
 gem 'twitter', git: 'https://github.com/sferik/twitter'
 gem 'devise'
 gem 'omniauth-twitter'
-gem 'omniauth-mastodon'
+gem 'omniauth-mastodon', '>= 0.9.2'
 
 group :development, :test do
   gem 'pry'
