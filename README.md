@@ -1,24 +1,8 @@
-# README
+# Mastodon Bridge
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This is a simple web app that helps you find your Twitter friends on the federated Mastodon network. It is also an example of how the Mastodon API can be used and the federated OAuth authorization flow.
 
-Things you may want to cover:
+## Links
 
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+- [Ruby gem for Mastodon API](https://github.com/Gargron/mastodon-api)
+- [OmniAuth strategy for Mastodon](https://github.com/Gargron/omniauth-mastodon)
