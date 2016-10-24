@@ -5,6 +5,7 @@ class FriendsController < ApplicationController
 
   def index
     fetch_twitter_followees
+    fetch_twitter_followers
     fetch_related_mastodons
   end
 
@@ -18,13 +19,23 @@ class FriendsController < ApplicationController
   private
 
   def fetch_twitter_followees
-    @twitter_friend_ids = Rails.cache.fetch("#{current_user.id}/twitter-friends", expires_in: 1.minute) do
+    @twitter_friend_ids = Rails.cache.fetch("#{current_user.id}/twitter-friends", expires_in: 15.minutes) do
       twitter_client.friend_ids
     end
   end
 
+  def fetch_twitter_followers
+    @twitter_follower_ids = Rails.cache.fetch("#{current_user.id}/twitter-followers", expires_in: 15.minutes) do
+      twitter_client.follower_ids
+    end
+  end
+
   def fetch_related_mastodons
-    @friends = User.where(id: Authorization.where(provider: :twitter, uid: @twitter_friend_ids.to_a).pluck(:user_id)).includes(:authorizations)
+    found_ids1 = Authorization.where(provider: :twitter, uid: @twitter_friend_ids.to_a)
+    found_ids2 = Authorization.where(provider: :twitter, uid: @twitter_follower_ids.to_a)
+    @name_map  = twitter_client.users((found_ids1 + found_ids2).map(&:uid).map(&:to_i)).map { |u| [u.id.to_s, u] }.to_h
+    @friends   = User.where(id: found_ids1.map(&:user_id)).includes(:authorizations)
+    @followers = User.where(id: found_ids2.map(&:user_id)).includes(:authorizations)
   end
 
   def twitter_client

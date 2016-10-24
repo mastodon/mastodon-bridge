@@ -4,27 +4,13 @@
   <a class="twitter-share-button" href="https://twitter.com/intent/tweet?text=<%= URI.encode('Find your friends on #Mastodon') %>&url=<%= root_url %>" data-size="large">Tweet</a>
 </p>
 
-<table>
-  <thead>
-    <tr>
-      <th>Twitter user</th>
-      <th>Mastodon user</th>
-      <th></th>
-    </tr>
-  </thead>
+<h4>Friends</h4>
 
-  <tbody>
-    <% @friends.each do |user| %>
-      <tr>
-        <td><%= user.authorizations.find_by(provider: :twitter).uid %></td>
-        <td><%= user.authorizations.find_by(provider: :mastodon).try(:uid) %></td>
-        <td><%= link_to "Follow", follow_friend_path(user) %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+<%= render 'table', collection: @friends %>
 
-<p><small>Results are cached for 1 minute</small></p>
+<h4>Followers</h4>
+
+<%= render 'table', collection: @followers %>
 
 <script>window.twttr = (function(d, s, id) {
   var js, fjs = d.getElementsByTagName(s)[0],

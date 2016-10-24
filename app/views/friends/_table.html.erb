@@ -1,0 +1,24 @@
+<table>
+  <thead>
+    <tr>
+      <th>Twitter user</th>
+      <th>Mastodon user</th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% collection.each do |user| %>
+      <tr>
+        <td><%= link_to "@#{@name_map[user.twitter.uid].screen_name}", "https://twitter.com/#{@name_map[user.twitter.uid].screen_name}" %></td>
+
+        <% if user.mastodon %>
+          <td><%= link_to user.mastodon.uid, mastodon_profile_url(user.mastodon.uid) %></td>
+          <td><%= link_to "Follow", follow_friend_path(user) %></td>
+        <% else %>
+          <td colspan="2">Hasn't signed in with Mastodon yet</td>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

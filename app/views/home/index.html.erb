@@ -10,7 +10,7 @@
 <ul>
   <li><%= link_to "Sign in with Twitter", user_twitter_omniauth_authorize_path %></li>
   <li><%= link_to "Sign in with Mastodon", user_mastodon_omniauth_authorize_path %></li>
-</li>
+</ul>
 
 <% if user_signed_in? %>
   <p>You are signed in:</p>
@@ -19,12 +19,12 @@
     <tbody>
       <tr>
         <th>Twitter</th>
-        <td><%= current_user.authorizations.find_by(provider: :twitter).try(:uid) %></td>
+        <td><%= current_user.twitter.try(:uid) || 'Please sign in' %></td>
       </tr>
 
       <tr>
         <th>Mastodon</th>
-        <td><%= current_user.authorizations.find_by(provider: :mastodon).try(:uid) %></td>
+        <td><%= current_user.mastodon.try(:uid) || 'Please sign in' %></td>
       </tr>
     </tbody>
   </table>
