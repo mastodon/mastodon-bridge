@@ -29,7 +29,11 @@
     </tbody>
   </table>
 
-  <p><%= link_to "Find friends on Mastodon", friends_path %></p>
+  <ul>
+    <li><%= link_to "Find friends on Mastodon", friends_path %></li>
+  </ul>
 <% else %>
   <p>You are not signed in</p>
 <% end %>
+
+<p>So far, <strong><%= @twitter_count %></strong> users signed in with Twitter, and <strong><%= @mastodon_count %></strong> with Mastodon. Are your friends or followers among them?</p>
