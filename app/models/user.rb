@@ -4,11 +4,11 @@ class User < ApplicationRecord
   has_many :authorizations
 
   def twitter
-    @twitter ||= authorizations.find_by(provider: :twitter)
+    @twitter ||= authorizations.where(provider: :twitter).last
   end
 
   def mastodon
-    @mastodon ||= authorizations.find_by(provider: :mastodon)
+    @mastodon ||= authorizations.where(provider: :mastodon).last
   end
 
   class << self
