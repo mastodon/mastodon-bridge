@@ -27,8 +27,6 @@ class User < ApplicationRecord
         authorization.display_name = auth.info.nickname
       end
 
-      binding.pry
-
       authorization.save
       authorization.user
     end
