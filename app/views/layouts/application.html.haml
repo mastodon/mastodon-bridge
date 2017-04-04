@@ -1,0 +1,28 @@
+!!!
+%html
+  %head
+    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+    %title Mastodon Bridge
+    = csrf_meta_tags
+    = stylesheet_link_tag 'application', media: 'all'
+  %body
+    - if flash[:notice]
+      .flash-message
+        %strong Success!
+        = flash[:notice]
+    - if flash[:alert]
+      .flash-message
+        %strong Oops!
+        = flash[:alert]
+
+    = yield
+
+    %hr/
+
+    %p.footer
+      This website is run by
+      %a{:href => "https://mastodon.social/@Gargron"} @Gargron@mastodon.social
+      \/
+      = succeed "." do
+        %a{:href => "https://twitter.com/Gargron"} @Gargron
+      %a{:href => "https://github.com/tootsuite/mastodon-bridge", :target => "_blank"} Source code

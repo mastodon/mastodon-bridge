@@ -1,0 +1,42 @@
+.toot-friend
+  = image_tag 'toot-friend.png'
+
+%p.lead
+  This website is a tool for finding your Twitter friends in the
+  = link_to 'federated Mastodon network.', 'https://instances.mastodon.xyz'
+  As long as your friends have signed on here with both accounts, you can find them.
+
+.info-area
+  %ul.fa-ul
+    %li
+      = fa_icon('li ' + (@has_twitter ? 'check-square' : 'square'))
+      Twitter:
+      - if @has_twitter
+        %strong= current_user.twitter.display_name
+      - else
+        Please sign in
+    %li
+      = fa_icon('li ' + (@has_mastodon ? 'check-square' : 'square'))
+      Mastodon:
+      - if @has_mastodon
+        %strong= current_user.mastodon.uid
+      - else
+        Please sign in
+    %li
+      = fa_icon('li square')
+
+      - if @has_twitter && @has_mastodon
+        %strong= link_to "Check for friends!", friends_path
+      - else
+        Check for friends!
+
+%ul.buttons
+  %li= link_to "Sign in with Twitter", user_twitter_omniauth_authorize_path, class: 'button'
+  %li= link_to "Sign in with Mastodon", user_mastodon_omniauth_authorize_path, class: 'button'
+
+%p
+  This website uses a database of
+  %strong= @twitter_count
+  Twitter users and
+  %strong= @mastodon_count
+  Mastodon users who signed in here to match them together across multiple Mastodon instances. Are your friends or followers among them?

@@ -4,12 +4,14 @@ gem 'rails', '~> 5.0.0', '>= 5.0.0.1'
 gem 'pg', '~> 0.18'
 gem 'puma', '~> 3.0'
 gem 'sass-rails', '~> 5.0'
+gem 'font-awesome-rails'
 
 gem 'mastodon-api', require: 'mastodon'
 gem 'twitter', git: 'https://github.com/sferik/twitter'
 gem 'devise'
 gem 'omniauth-twitter'
 gem 'omniauth-mastodon', '>= 0.9.2'
+gem 'hamlit'
 
 group :development, :test do
   gem 'pry'

@@ -1,0 +1,10 @@
+- collection.each do |user|
+  .user-map
+    .twitter= link_to "@#{@name_map[user.twitter.uid].screen_name}", "https://twitter.com/#{@name_map[user.twitter.uid].screen_name}"
+    .to= fa_icon('chevron-right')
+
+    - if user.mastodon
+      .mastodon= link_to user.mastodon.uid, mastodon_profile_url(user.mastodon.uid)
+      .follow= link_to "Follow", follow_friend_path(user), class: 'button'
+    - else
+      .mastodon Unknown, yet

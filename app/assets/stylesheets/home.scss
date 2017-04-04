@@ -1,11 +1,60 @@
-@import url(https://fonts.googleapis.com/css?family=Roboto:400,400i,700);
+@import url(https://fonts.googleapis.com/css?family=Roboto:400,400i,500,700);
+
+/* http://meyerweb.com/eric/tools/css/reset/
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+  display: block;
+}
+body {
+  line-height: 1;
+}
+ol, ul {
+  list-style: none;
+}
+blockquote, q {
+  quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+  content: '';
+  content: none;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
 
 body {
-  background: #fff;
-  color: #282c37;
+  background: #282c37;
+  color: #9baec8;
   font-family: 'Roboto', sans-serif;
-  font-size: 13px;
-  line-height: 18px;
+  font-size: 14px;
+  line-height: 21px;
   font-weight: 400;
   max-width: 600px;
   margin: 0 auto;
@@ -13,16 +62,148 @@ body {
 }
 
 a {
-  color: #2b90d9;
+  color: lighten(#2b90d9, 4%);
 
-  &:visited {
-    color: darken(#2b90d9, 15%);
+  &:hover, &:focus, &:active {
+    color: lighten(#2b90d9, 8%);
   }
 }
 
 hr {
   border: 0;
   background: none;
-  border-bottom: 1px solid #9baec8;
+  border-bottom: 1px solid lighten(#282c37, 8%);
   margin: 30px 0;
+}
+
+.toot-friend img {
+  display: block;
+  margin: 0 auto;
+}
+
+p.lead {
+  font-size: 16px;
+  font-weight: 500;
+  color: #fff;
+  margin-bottom: 20px;
+}
+
+.flash-message {
+  background: darken(#282c37, 8%);
+  color: #9baec8;
+  border-radius: 4px;
+  padding: 15px 10px;
+  margin-bottom: 30px;
+  box-shadow: 0 0 5px rgba(#000, 0.2);
+  text-align: center;
+
+  strong {
+    font-weight: 500;
+  }
+}
+
+.buttons {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+
+  li {
+    display: block;
+    margin: 0 5px;
+  }
+}
+
+.button, a.button {
+  background-color: darken(#2b90d9, 3%);
+  font-family: inherit;
+  display: inline-block;
+  position: relative;
+  box-sizing: border-box;
+  text-align: center;
+  border: 10px none;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: uppercase;
+  padding: 0 16px;
+  height: 36px;
+  cursor: pointer;
+  line-height: 36px;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: all 100ms ease-in;
+
+  &:hover, &:active, &:focus {
+    background-color: lighten(#2b90d9, 7%);
+    transition: all 200ms ease-out;
+  }
+
+  &:disabled {
+    background-color: #9baec8;
+    cursor: default;
+  }
+}
+
+.footer {
+  text-align: center;
+  color: lighten(#282c37, 26%);
+
+  a {
+    color: inherit;
+  }
+}
+
+.info-area {
+  margin-bottom: 20px;
+  background: darken(#282c37, 8%);
+  padding: 20px 10px;
+  border-radius: 4px;
+  color: #fff;
+  font-size: 15px;
+
+  li {
+    margin-bottom: 5px;
+  }
+
+  strong {
+    font-weight: 500;
+  }
+}
+
+h4 {
+  font-size: 18px;
+  font-weight: 400;
+  margin-bottom: 20px;
+  color: #fff;
+}
+
+.user-map {
+  margin-bottom: 10px;
+  display: flex;
+  line-height: 36px;
+
+  & > div {
+    flex: 0 0 auto;
+  }
+
+  .twitter {
+    width: 150px;
+  }
+
+  .to {
+    width: 30px;
+    margin: 0 20px;
+  }
+
+  .mastodon {
+    width: 200px;
+  }
+
+  .follow {
+    flex: 1 1 auto;
+    text-align: right;
+  }
 }

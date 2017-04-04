@@ -4,6 +4,8 @@ class FriendsController < ApplicationController
   before_action :authenticate_user!
 
   def index
+    @tweet_text = URI.encode("I am #{current_user.mastodon.try(:uid)} on Mastodon! Find your Twitter friends in the fediverse")
+
     fetch_twitter_followees
     fetch_twitter_followers
     fetch_related_mastodons
@@ -14,6 +16,8 @@ class FriendsController < ApplicationController
     mastodon_uid = user.authorizations.find_by(provider: :mastodon).uid
     mastodon_client.follow_by_uri(mastodon_uid)
     redirect_to friends_path, notice: "Successfully followed #{mastodon_uid} from your Mastodon account"
+  rescue Mastodon::Error::Unauthorized
+    redirect_to friends_path, alert: "The access token for your Mastodon account has expired or was revoked"
   end
 
   private
@@ -33,7 +37,11 @@ class FriendsController < ApplicationController
   def fetch_related_mastodons
     found_ids1 = Authorization.where(provider: :twitter, uid: @twitter_friend_ids.to_a)
     found_ids2 = Authorization.where(provider: :twitter, uid: @twitter_follower_ids.to_a)
-    @name_map  = twitter_client.users((found_ids1 + found_ids2).map(&:uid).map(&:to_i)).map { |u| [u.id.to_s, u] }.to_h
+
+    @name_map = Rails.cache.fetch("#{current_user.id}/mastodons-on-twitter", expires_in: 15.minutes) do
+      twitter_client.users((found_ids1 + found_ids2).map(&:uid).map(&:to_i)).map { |u| [u.id.to_s, u] }.to_h
+    end
+
     @friends   = User.where(id: found_ids1.map(&:user_id)).includes(:authorizations)
     @followers = User.where(id: found_ids2.map(&:user_id)).includes(:authorizations)
   end

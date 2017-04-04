@@ -1,0 +1,35 @@
+%p.lead
+  Your friends are not showing up in the table? Tell them to create a Mastodon account on any instance and then sign in on this website using both Twitter and Mastodon.
+
+%p
+  %a.twitter-share-button{"data-size" => "large", :href => "https://twitter.com/intent/tweet?text=#{@tweet_text}"} Tweet
+
+%hr/
+
+%h4 Friends
+
+= render 'table', collection: @friends
+
+%hr/
+
+%h4 Followers
+
+= render 'table', collection: @followers
+
+:javascript
+  window.twttr = (function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0],
+      t = window.twttr || {};
+    if (d.getElementById(id)) return t;
+    js = d.createElement(s);
+    js.id = id;
+    js.src = "https://platform.twitter.com/widgets.js";
+    fjs.parentNode.insertBefore(js, fjs);
+
+    t._e = [];
+    t.ready = function(f) {
+      t._e.push(f);
+    };
+
+    return t;
+  }(document, "script", "twitter-wjs"));
