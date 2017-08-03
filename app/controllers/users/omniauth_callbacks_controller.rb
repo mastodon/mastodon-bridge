@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   def all
     user = User.from_omniauth(request.env['omniauth.auth'], current_user)
@@ -9,8 +11,8 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     end
   end
 
-  alias_method :twitter, :all
-  alias_method :mastodon, :all
+  alias twitter  all
+  alias mastodon all
 
   def failure
     redirect_to root_path

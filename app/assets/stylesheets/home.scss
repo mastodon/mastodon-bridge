@@ -1,4 +1,18 @@
-@import url(https://fonts.googleapis.com/css?family=Roboto:400,400i,500,700);
+@import url('https://fonts.googleapis.com/css?family=Quando|Judson|Montserrat:500|Roboto:400,500');
+
+$white:    #fff    !default; // color5
+$lightest: #d9e1e8 !default; // color2
+$lighter:  #9baec8 !default; // color3
+$darkest:  #1F232B !default; // color1
+$black:    #000    !default; // color8
+$darker:   lighten($darkest, 30%);
+
+$vibrant:  #2b90d9 !default; // color4
+$error:    #df405a !default; // color6
+$success:  #79bd9a !default; // color7
+
+$transition-in: 100ms linear;
+$transition-out: 250ms linear;
 
 /* http://meyerweb.com/eric/tools/css/reset/
    v2.0 | 20110126
@@ -83,7 +97,7 @@ hr {
 
 p.lead {
   font-size: 16px;
-  font-weight: 500;
+  font-weight: 400;
   color: #fff;
   margin-bottom: 20px;
 }
@@ -141,7 +155,7 @@ p.lead {
     transition: all 200ms ease-out;
   }
 
-  &:disabled {
+  &:disabled, &.disabled {
     background-color: #9baec8;
     cursor: default;
   }
@@ -205,5 +219,214 @@ h4 {
   .follow {
     flex: 1 1 auto;
     text-align: right;
+  }
+}
+
+.header {
+  margin-bottom: 30px;
+  display: flex;
+  justify-content: space-between;
+
+  ul {
+    list-style: none;
+
+    li {
+      display: inline-block;
+      vertical-align: bottom;
+    }
+
+    a {
+      display: flex;
+      align-content: center;
+      align-items: center;
+
+      color: $lighter;
+      text-decoration: none;
+      padding: 12px 16px;
+      line-height: 32px;
+      transition: color $transition-out;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 500;
+      font-size: 14px;
+
+      img.link-logo {
+        width: 32px;
+        height: 32px;
+        opacity: 0.5;
+        transition: opacity $transition-out;
+
+        &.before {
+          margin-right: 10px;
+        }
+
+        &.after {
+          margin-left: 10px;
+        }
+      }
+
+      &.active, &:hover {
+        color: $lightest;
+        transition: color $transition-in;
+
+        img.link-logo {
+          opacity: 0.8;
+          transition: opacity $transition-in;
+        }
+      }
+
+      &.brand {
+        color: $white;
+
+        img {
+          width: auto;
+          height: 32px;
+          opacity: 1;
+          position: relative;
+          top: 4px;
+        }
+
+        &:hover {
+          border-bottom-color: transparent;
+
+          img {
+            opacity: 1;
+          }
+        }
+      }
+    }
+
+    li:first-child a {
+      padding-left: 0;
+    }
+
+    li:last-child a {
+      padding-right: 0;
+    }
+  }
+}
+
+.page-heading {
+  background: darken($darkest, 4%);
+  padding: 20px;
+  margin-bottom: 30px;
+
+  h3 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 26px;
+
+    small {
+      font-family: 'Roboto', sans-serif;
+      margin-top: 20px;
+      display: block;
+      color: $lighter;
+      font-size: 18px;
+    }
+  }
+}
+
+.connections {
+  li {
+    padding: 0 10px;
+    display: flex;
+    margin-bottom: 15px;
+  }
+
+  .connection-brand {
+    width: 80px;
+    height: 80px;
+
+    img {
+      display: block;
+      margin: 0;
+    }
+
+    &.twitter {
+      img {
+        width: 80px;
+        height: 80px;
+      }
+    }
+
+    &.mastodon {
+      background: #3088d4;
+
+      img {
+        width: 60px;
+        height: 60px;
+        margin: 10px;
+      }
+    }
+  }
+
+  .connection-info {
+    margin-left: 15px;
+
+    strong {
+      font-weight: 500;
+    }
+
+    .connection-disconnect-link {
+      display: block;
+    }
+  }
+}
+
+.login-buttons {
+  display: flex;
+  margin-bottom: 30px;
+
+  & > a, & > div {
+    flex: 1 0 0;
+    color: #fff;
+    display: flex;
+    text-decoration: none;
+
+    &:first-child {
+      margin-right: 10px;
+    }
+  }
+
+  .login-brand {
+    width: 80px;
+    height: 80px;
+
+    img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      margin: 0;
+    }
+  }
+
+  .login-content {
+    padding: 18px 10px;
+  }
+
+  .login-numbers, .login-name {
+    strong {
+      font-weight: 500;
+    }
+  }
+
+  .twitter {
+    background: #1da1f2;
+  }
+
+  .mastodon {
+    background: #3088d4;
+
+    .login-brand img {
+      width: 60px;
+      height: 60px;
+      margin: 10px;
+    }
+  }
+
+  a.twitter:hover {
+    background: lighten(#1da1f2, 4%);
+  }
+
+  a.mastodon:hover {
+    background: lighten(#3088d4, 4%);
   }
 }

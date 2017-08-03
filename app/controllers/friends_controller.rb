@@ -1,7 +1,13 @@
+# frozen_string_literal: true
+
 require 'twitter'
 
 class FriendsController < ApplicationController
   before_action :authenticate_user!
+
+  rescue_from Twitter::Error do |e|
+    redirect_to root_path, alert: "Twitter error: #{e}"
+  end
 
   def index
     @tweet_text = URI.encode("I am #{current_user.mastodon.try(:uid)} on Mastodon! Find your Twitter friends in the fediverse")
@@ -17,30 +23,22 @@ class FriendsController < ApplicationController
     mastodon_client.follow_by_uri(mastodon_uid)
     redirect_to friends_path, notice: "Successfully followed #{mastodon_uid} from your Mastodon account"
   rescue Mastodon::Error::Unauthorized
-    redirect_to friends_path, alert: "The access token for your Mastodon account has expired or was revoked"
+    redirect_to friends_path, alert: 'The access token for your Mastodon account has expired or was revoked'
   end
 
   private
 
   def fetch_twitter_followees
-    @twitter_friend_ids = Rails.cache.fetch("#{current_user.id}/twitter-friends", expires_in: 15.minutes) do
-      twitter_client.friend_ids
-    end
+    @twitter_friend_ids = Rails.cache.fetch("#{current_user.id}/twitter-friends", expires_in: 15.minutes) { twitter_client.friend_ids }
   end
 
   def fetch_twitter_followers
-    @twitter_follower_ids = Rails.cache.fetch("#{current_user.id}/twitter-followers", expires_in: 15.minutes) do
-      twitter_client.follower_ids
-    end
+    @twitter_follower_ids = Rails.cache.fetch("#{current_user.id}/twitter-followers", expires_in: 15.minutes) { twitter_client.follower_ids }
   end
 
   def fetch_related_mastodons
     found_ids1 = Authorization.where(provider: :twitter, uid: @twitter_friend_ids.to_a)
     found_ids2 = Authorization.where(provider: :twitter, uid: @twitter_follower_ids.to_a)
-
-    @name_map = Rails.cache.fetch("#{current_user.id}/mastodons-on-twitter", expires_in: 15.minutes) do
-      twitter_client.users((found_ids1 + found_ids2).map(&:uid).map(&:to_i)).map { |u| [u.id.to_s, u] }.to_h
-    end
 
     @friends   = User.where(id: found_ids1.map(&:user_id)).includes(:authorizations)
     @followers = User.where(id: found_ids2.map(&:user_id)).includes(:authorizations)

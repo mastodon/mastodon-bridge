@@ -1,0 +1,18 @@
+.page-heading
+  %h3
+    Connections
+    %small Manage your connected accounts
+
+%ul.connections
+  - @authorizations.each do |authorization|
+    %li
+      .connection-brand{ class: authorization.provider }
+        - if authorization.provider == 'twitter'
+          = image_tag 'twitter-square.png', alt: 'Twitter'
+        - else
+          = image_tag 'logo.svg', alt: 'Mastodon'
+
+      .connection-info
+        %strong= authorization.display_name.presence || authorization.uid
+        = fa_icon 'check'
+        = link_to 'Disconnect', authorization_path(authorization), method: :delete, class: 'connection-disconnect-link'

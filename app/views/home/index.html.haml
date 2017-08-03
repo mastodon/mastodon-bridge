@@ -1,42 +1,34 @@
-.toot-friend
-  = image_tag 'toot-friend.png'
+.page-heading
+  %h3
+    Find your friends
+    %small Login via Twitter and Mastodon to get started
 
-%p.lead
-  This website is a tool for finding your Twitter friends in the
-  = link_to 'federated Mastodon network.', 'https://instances.mastodon.xyz'
-  As long as your friends have signed on here with both accounts, you can find them.
-
-.info-area
-  %ul.fa-ul
-    %li
-      = fa_icon('li ' + (@has_twitter ? 'check-square' : 'square'))
-      Twitter:
-      - if @has_twitter
-        %strong= current_user.twitter.display_name
+.login-buttons
+  = content_tag twitter? ? :div : :a, href: user_twitter_omniauth_authorize_path, class: 'twitter' do
+    .login-brand= image_tag 'twitter-square.png', alt: 'Twitter'
+    .login-content
+      .login-numbers
+        %strong= @twitter_count
+        accounts
+      - if twitter?
+        .login-name
+          %strong= current_user.twitter.display_name
+          = fa_icon 'check'
       - else
-        Please sign in
-    %li
-      = fa_icon('li ' + (@has_mastodon ? 'check-square' : 'square'))
-      Mastodon:
-      - if @has_mastodon
-        %strong= current_user.mastodon.uid
-      - else
-        Please sign in
-    %li
-      = fa_icon('li square')
+        %span.login-btn Connect Twitter
 
-      - if @has_twitter && @has_mastodon
-        %strong= link_to "Check for friends!", friends_path
+  = content_tag mastodon? ? :div : :a, href: user_mastodon_omniauth_authorize_path, class: 'mastodon' do
+    .login-brand= image_tag 'logo.svg', alt: 'Mastodon'
+    .login-content
+      .login-numbers
+        %strong= @mastodon_count
+        accounts
+      - if mastodon?
+        .login-name
+          %strong= current_user.mastodon.display_name.presence || current_user.mastodon.uid
+          = fa_icon 'check'
       - else
-        Check for friends!
-
-%ul.buttons
-  %li= link_to "Sign in with Twitter", user_twitter_omniauth_authorize_path, class: 'button'
-  %li= link_to "Sign in with Mastodon", user_mastodon_omniauth_authorize_path, class: 'button'
+        %span.login-btn Connect Mastodon
 
 %p
-  This website uses a database of
-  %strong= @twitter_count
-  Twitter users and
-  %strong= @mastodon_count
-  Mastodon users who signed in here to match them together across multiple Mastodon instances. Are your friends or followers among them?
+  This website uses a database of Twitter users and Mastodon users who signed in here to match them together across multiple Mastodon instances. Are your friends or followers among them?

@@ -1,12 +1,17 @@
+.page-heading
+  %h3
+    Your friends
+    %small Here are the results
+
 %p.lead
-  Your friends are not showing up in the table? Tell them to create a Mastodon account on any instance and then sign in on this website using both Twitter and Mastodon.
+  Are your friends not showing up in the table? Tell them to create a Mastodon account on any instance and then sign in on this website using both Twitter and Mastodon.
 
 %p
   %a.twitter-share-button{"data-size" => "large", :href => "https://twitter.com/intent/tweet?text=#{@tweet_text}"} Tweet
 
 %hr/
 
-%h4 Friends
+%h4 You follow
 
 = render 'table', collection: @friends
 

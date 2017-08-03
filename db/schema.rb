@@ -15,29 +15,29 @@ ActiveRecord::Schema.define(version: 20170404222753) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "authorizations", force: :cascade do |t|
-    t.string   "provider"
-    t.string   "uid"
-    t.integer  "user_id"
-    t.string   "token"
-    t.string   "secret"
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
-    t.string   "profile_url",  default: "", null: false
-    t.string   "display_name", default: "", null: false
-    t.index ["provider", "uid"], name: "index_authorizations_on_provider_and_uid", unique: true, using: :btree
+  create_table "authorizations", id: :serial, force: :cascade do |t|
+    t.string "provider"
+    t.string "uid"
+    t.integer "user_id"
+    t.string "token"
+    t.string "secret"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "profile_url", default: "", null: false
+    t.string "display_name", default: "", null: false
+    t.index ["provider", "uid"], name: "index_authorizations_on_provider_and_uid", unique: true
   end
 
-  create_table "mastodon_clients", force: :cascade do |t|
-    t.string   "domain"
-    t.string   "client_id"
-    t.string   "client_secret"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
-    t.index ["domain"], name: "index_mastodon_clients_on_domain", unique: true, using: :btree
+  create_table "mastodon_clients", id: :serial, force: :cascade do |t|
+    t.string "domain"
+    t.string "client_id"
+    t.string "client_secret"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["domain"], name: "index_mastodon_clients_on_domain", unique: true
   end
 
-  create_table "users", force: :cascade do |t|
+  create_table "users", id: :serial, force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

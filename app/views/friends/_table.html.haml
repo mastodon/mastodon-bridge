@@ -1,6 +1,6 @@
 - collection.each do |user|
   .user-map
-    .twitter= link_to "@#{@name_map[user.twitter.uid].screen_name}", "https://twitter.com/#{@name_map[user.twitter.uid].screen_name}"
+    .twitter= link_to "@#{user.twitter.display_name}", "https://twitter.com/#{user.twitter.display_name}"
     .to= fa_icon('chevron-right')
 
     - if user.mastodon
