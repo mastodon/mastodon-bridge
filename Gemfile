@@ -9,6 +9,7 @@ gem 'puma', '~> 3.8'
 gem 'sass-rails', '~> 5.0'
 gem 'font-awesome-rails'
 gem 'jquery-rails'
+gem 'uglifier'
 
 gem 'bootsnap'
 gem 'mastodon-api', require: 'mastodon'
