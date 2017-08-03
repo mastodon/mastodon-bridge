@@ -12,7 +12,7 @@
         accounts
       - if twitter?
         .login-name
-          %strong= current_user.twitter.display_name
+          %strong= current_user.twitter.display_name.presence || current_user.twitter.uid
           = fa_icon 'check'
       - else
         %span.login-btn Connect Twitter

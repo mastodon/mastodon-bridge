@@ -1,6 +1,10 @@
 - collection.each do |user|
   .user-map
-    .twitter= link_to "@#{user.twitter.display_name}", "https://twitter.com/#{user.twitter.display_name}"
+    .twitter
+      - if user.twitter.display_name.present?
+        = link_to "@#{user.twitter.display_name}", "https://twitter.com/#{user.twitter.display_name}"
+      - else
+        = link_to user.twitter.uid, "https://twitter.com/intent/user?user_id=#{user.twitter.uid}"
     .to= fa_icon('chevron-right')
 
     - if user.mastodon
