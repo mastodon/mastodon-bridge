@@ -8,7 +8,7 @@
     .login-brand= image_tag 'twitter-square.png', alt: 'Twitter'
     .login-content
       .login-numbers
-        %strong= @twitter_count
+        %strong= number_with_delimiter @twitter_count
         accounts
       - if twitter?
         .login-name
@@ -21,7 +21,7 @@
     .login-brand= image_tag 'logo.svg', alt: 'Mastodon'
     .login-content
       .login-numbers
-        %strong= @mastodon_count
+        %strong= number_with_delimiter @mastodon_count
         accounts
       - if mastodon?
         .login-name
