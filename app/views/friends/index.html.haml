@@ -3,20 +3,24 @@
     Your friends
     %small Here are your Twitter friends who are on Mastodon
 
-.grid
-  - @top_instances.each do |instance_info|
-    = link_to "https://#{instance_info['uri']}/about", class: 'instance-card', style: "background-image: url(#{instance_info['thumbnail']})" do
-      .info
-        %span.title= instance_info['title']
-        %span.uri= instance_info['uri']
-        %span.users
-          = surround '(', ')' do
-            = number_with_delimiter instance_info['stats']['user_count']
-            = 'person'.pluralize(instance_info['stats']['user_count'])
-.grid
-  - @friends.each do |user|
-    = link_to user.mastodon.info['url'], class: 'user-card' do
-      .avatar= image_tag user.mastodon.info['avatar']
-      .name
-        %span.display-name= user.mastodon.info['display_name'].presence || user.mastodon.info['username']
-        %span.username= "@#{user.mastodon.uid}"
+- if @friends.empty?
+  %p.lead Well, this is unfortunate. Looks like none of your Twitter friends are on Mastodon yet. Or maybe they are, but haven't signed in to this bridge service.
+- else
+  .grid
+    - @top_instances.each do |instance_info|
+      = link_to "https://#{instance_info['uri']}/about", class: 'instance-card', style: "background-image: url(#{instance_info['thumbnail']})" do
+        .info
+          %span.title= instance_info['title']
+          %span.uri= instance_info['uri']
+          %span.users
+            = surround '(', ')' do
+              = number_with_delimiter instance_info['stats']['user_count']
+              = 'person'.pluralize(instance_info['stats']['user_count'])
+
+  .grid
+    - @friends.each do |user|
+      = link_to user.mastodon.info['url'], class: 'user-card' do
+        .avatar= image_tag user.mastodon.info['avatar']
+        .name
+          %span.display-name= user.mastodon.info['display_name'].presence || user.mastodon.info['username']
+          %span.username= "@#{user.mastodon.uid}"
