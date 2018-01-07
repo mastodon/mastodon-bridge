@@ -16,7 +16,7 @@
             = image_tag 'logo_full.svg', alt: 'Mastodon Bridge'
 
       %ul.right
-        - if twitter? && mastodon?
+        - if twitter?
           %li= link_to 'Friends', friends_path
 
         - if user_signed_in?

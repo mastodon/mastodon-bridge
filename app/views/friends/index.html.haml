@@ -1,40 +1,22 @@
 .page-heading
   %h3
     Your friends
-    %small Here are the results
+    %small Here are your Twitter friends who are on Mastodon
 
-%p.lead
-  Are your friends not showing up in the table? Tell them to create a Mastodon account on any instance and then sign in on this website using both Twitter and Mastodon.
-
-%p
-  %a.twitter-share-button{"data-size" => "large", :href => "https://twitter.com/intent/tweet?text=#{@tweet_text}"} Tweet
-
-%hr/
-
-%h4 You follow
-
-= render 'table', collection: @friends
-
-%hr/
-
-%h4 Followers
-
-= render 'table', collection: @followers
-
-:javascript
-  window.twttr = (function(d, s, id) {
-    var js, fjs = d.getElementsByTagName(s)[0],
-      t = window.twttr || {};
-    if (d.getElementById(id)) return t;
-    js = d.createElement(s);
-    js.id = id;
-    js.src = "https://platform.twitter.com/widgets.js";
-    fjs.parentNode.insertBefore(js, fjs);
-
-    t._e = [];
-    t.ready = function(f) {
-      t._e.push(f);
-    };
-
-    return t;
-  }(document, "script", "twitter-wjs"));
+.grid
+  - @top_instances.each do |instance_info|
+    = link_to "https://#{instance_info['uri']}/about", class: 'instance-card', style: "background-image: url(#{instance_info['thumbnail']})" do
+      .info
+        %span.title= instance_info['title']
+        %span.uri= instance_info['uri']
+        %span.users
+          = surround '(', ')' do
+            = number_with_delimiter instance_info['stats']['user_count']
+            = 'person'.pluralize(instance_info['stats']['user_count'])
+.grid
+  - @friends.each do |user|
+    = link_to user.mastodon.info['url'], class: 'user-card' do
+      .avatar= image_tag user.mastodon.info['avatar']
+      .name
+        %span.display-name= user.mastodon.info['display_name'].presence || user.mastodon.info['username']
+        %span.username= "@#{user.mastodon.uid}"

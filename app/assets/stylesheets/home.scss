@@ -309,6 +309,7 @@ h4 {
   background: darken($darkest, 4%);
   padding: 20px;
   margin-bottom: 30px;
+  border-radius: 10px;
 
   h3 {
     font-family: 'Montserrat', sans-serif;
@@ -380,6 +381,8 @@ h4 {
     color: #fff;
     display: flex;
     text-decoration: none;
+    overflow: hidden;
+    border-radius: 10px;
 
     &:first-child {
       margin-right: 10px;
@@ -428,5 +431,92 @@ h4 {
 
   a.mastodon:hover {
     background: lighten(#3088d4, 4%);
+  }
+}
+
+.grid {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.instance-card {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  border-radius: 10px;
+  background-size: cover;
+  background-position: center;
+  padding-top: 110px;
+  margin-bottom: 20px;
+  flex: 1 1 auto;
+  max-width: 300px;
+
+  .info {
+    background: linear-gradient(0deg, rgba(#000, 0.8) 0, rgba(#000, 0.35) 60%, transparent);
+    padding: 10px;
+    padding-top: 40px;
+    border-radius: 0 0 10px 10px;
+  }
+
+  .title {
+    font-weight: 500;
+    color: $lightest;
+    display: block;
+  }
+
+  &:hover,
+  &:focus,
+  &:active {
+    color: $lightest;
+
+    .title {
+      color: #fff;
+    }
+  }
+}
+
+.user-card {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  align-items: center;
+  flex: 1 1 auto;
+  max-width: 300px;
+  margin-bottom: 20px;
+
+  .avatar {
+    width: 60px;
+    height: 60px;
+
+    img {
+      display: block;
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+    }
+  }
+
+  .name {
+    margin-left: 10px;
+  }
+
+  .display-name {
+    font-weight: 500;
+    color: $lightest;
+    display: block;
+  }
+
+  &:hover,
+  &:focus,
+  &:active {
+    color: $lightest;
+
+    .display-name {
+      color: #fff;
+    }
   }
 }

@@ -1,7 +1,7 @@
 .page-heading
   %h3
     Find your friends
-    %small Login via Twitter and Mastodon to get started
+    %small Login via Twitter to get started
 
 .login-buttons
   = content_tag twitter? ? :div : :a, href: user_twitter_omniauth_authorize_path, class: 'twitter' do
@@ -31,4 +31,4 @@
         %span.login-btn Connect Mastodon
 
 %p
-  This website uses a database of Twitter users and Mastodon users who signed in here to match them together across multiple Mastodon instances. Are your friends or followers among them?
+  This website uses a database of Twitter users and Mastodon users who signed in here to match them together across multiple Mastodon instances. Are your friends among them?

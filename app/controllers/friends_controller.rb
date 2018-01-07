@@ -4,44 +4,34 @@ require 'twitter'
 
 class FriendsController < ApplicationController
   before_action :authenticate_user!
+  before_action :set_friends, only: :index
+  before_action :set_top_instances, only: :index
 
   rescue_from Twitter::Error do |e|
     redirect_to root_path, alert: "Twitter error: #{e}"
   end
 
-  def index
-    @tweet_text = URI.encode("I am #{current_user.mastodon.try(:uid)} on Mastodon! Find your Twitter friends in the fediverse")
-
-    fetch_twitter_followees
-    fetch_twitter_followers
-    fetch_related_mastodons
-  end
-
-  def follow
-    user = User.find(params[:id])
-    mastodon_uid = user.authorizations.find_by(provider: :mastodon).uid
-    mastodon_client.follow_by_uri(mastodon_uid)
-    redirect_to friends_path, notice: "Successfully followed #{mastodon_uid} from your Mastodon account"
-  rescue Mastodon::Error::Unauthorized
-    redirect_to friends_path, alert: 'The access token for your Mastodon account has expired or was revoked'
-  end
+  def index; end
 
   private
 
-  def fetch_twitter_followees
-    @twitter_friend_ids = Rails.cache.fetch("#{current_user.id}/twitter-friends", expires_in: 15.minutes) { twitter_client.friend_ids }
+  def set_friends
+    @friends = User.where(id: Authorization.where(provider: :twitter, uid: twitter_friend_ids).map(&:user_id))
+                   .includes(:authorizations)
+                   .reject { |user| user.mastodon.nil? }
   end
 
-  def fetch_twitter_followers
-    @twitter_follower_ids = Rails.cache.fetch("#{current_user.id}/twitter-followers", expires_in: 15.minutes) { twitter_client.follower_ids }
+  def set_top_instances
+    @top_instances = @friends.collect { |user| user&.mastodon&.uid }
+                             .compact
+                             .map { |uid| uid.split('@').last }
+                             .inject(Hash.new(0)) { |h, k| h[k] += 1; h }
+                             .sort_by { |k, v| v }
+                             .map { |k, _| Rails.cache.fetch("instance:#{k}", expires_in: 1.week) { Oj.load(HTTP.get("https://#{k}/api/v1/instance").to_s) } }
   end
 
-  def fetch_related_mastodons
-    found_ids1 = Authorization.where(provider: :twitter, uid: @twitter_friend_ids.to_a)
-    found_ids2 = Authorization.where(provider: :twitter, uid: @twitter_follower_ids.to_a)
-
-    @friends   = User.where(id: found_ids1.map(&:user_id)).includes(:authorizations)
-    @followers = User.where(id: found_ids2.map(&:user_id)).includes(:authorizations)
+  def twitter_friend_ids
+    Rails.cache.fetch("#{current_user.id}/twitter-friends", expires_in: 15.minutes) { twitter_client.friend_ids.to_a }
   end
 
   def twitter_client
