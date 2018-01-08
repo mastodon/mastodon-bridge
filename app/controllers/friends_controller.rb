@@ -27,7 +27,8 @@ class FriendsController < ApplicationController
                              .map { |uid| uid.split('@').last }
                              .inject(Hash.new(0)) { |h, k| h[k] += 1; h }
                              .sort_by { |k, v| v }
-                             .map { |k, _| Rails.cache.fetch("instance:#{k}", expires_in: 1.week) { Oj.load(HTTP.get("https://#{k}/api/v1/instance").to_s) } }
+                             .map { |k, _| fetch_instance_info(k) }
+                             .compact
   end
 
   def twitter_friend_ids
@@ -49,5 +50,11 @@ class FriendsController < ApplicationController
     authorization = current_user.authorizations.find_by(provider: :mastodon)
     _, domain = authorization.uid.split('@')
     @mastodon_client ||= Mastodon::REST::Client.new(base_url: "https://#{domain}", bearer_token: authorization.token)
+  end
+
+  def fetch_instance_info(host)
+    Rails.cache.fetch("instance:#{host}", expires_in: 1.week) { Oj.load(HTTP.get("https://#{host}/api/v1/instance").to_s, mode: :strict) }
+  rescue HTTP::Error, OpenSSL::SSL::SSLError, Oj::ParseError
+    nil
   end
 end
