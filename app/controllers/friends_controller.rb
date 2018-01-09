@@ -26,7 +26,7 @@ class FriendsController < ApplicationController
                              .compact
                              .map { |uid| uid.split('@').last }
                              .inject(Hash.new(0)) { |h, k| h[k] += 1; h }
-                             .sort_by { |k, v| v }
+                             .sort_by { |k, v| -v }
                              .map { |k, _| fetch_instance_info(k) }
                              .compact
   end
