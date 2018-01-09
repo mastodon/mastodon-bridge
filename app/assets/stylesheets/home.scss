@@ -446,12 +446,19 @@ h4 {
   text-decoration: none;
   color: inherit;
   border-radius: 10px;
+  background-color: darken($darkest, 4%);
   background-size: cover;
   background-position: center;
   padding-top: 110px;
   margin-bottom: 20px;
   flex: 1 1 auto;
   max-width: 300px;
+  width: calc(50% - 10px);
+  margin-right: 10px;
+  
+  &:nth-child(even) {
+    margin-right: 0;
+  }
 
   .info {
     background: linear-gradient(0deg, rgba(#000, 0.8) 0, rgba(#000, 0.35) 60%, transparent);
@@ -490,6 +497,9 @@ h4 {
   .avatar {
     width: 60px;
     height: 60px;
+    background: darken($darkest, 4%);
+    border-radius: 50%;
+    overflow: hidden;
 
     img {
       display: block;
