@@ -9,6 +9,6 @@
 
     - if user.mastodon
       .mastodon= link_to user.mastodon.uid, mastodon_profile_url(user.mastodon.uid)
-      .follow= link_to "Follow", follow_friend_path(user), class: 'button'
+      .follow= button_to "Follow", follow_friend_path(user), class: 'button'
     - else
       .mastodon Unknown, yet

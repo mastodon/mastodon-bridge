@@ -9,7 +9,7 @@ Rails.application.routes.draw do
 
   resources :friends, only: :index do
     member do
-      get :follow
+      post :follow
     end
   end
 
