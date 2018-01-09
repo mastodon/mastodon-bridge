@@ -19,8 +19,8 @@
 
   .grid
     - @friends.each do |user|
-      = link_to user.mastodon.info['url'], class: 'user-card' do
+      = link_to user.mastodon.info['url'] || user.mastodon.profile_url, class: 'user-card' do
         .avatar= image_tag user.mastodon.info['avatar']
         .name
-          %span.display-name= user.mastodon.info['display_name'].presence || user.mastodon.info['username']
+          %span.display-name= user.mastodon.info['display_name'].presence || user.mastodon.info['username'] || user.mastodon.display_name
           %span.username= "@#{user.mastodon.uid}"
