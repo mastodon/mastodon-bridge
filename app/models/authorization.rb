@@ -19,9 +19,9 @@ class Authorization < ApplicationRecord
         client.verify_credentials.attributes
       end
     else
-      @info = nil
+      @info = {}
     end
   rescue Mastodon::Error, HTTP::Error, OpenSSL::SSL::SSLError
-    @info = nil
+    @info = {}
   end
 end
