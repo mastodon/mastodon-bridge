@@ -5,12 +5,31 @@ class User < ApplicationRecord
 
   has_many :authorizations
 
+  attr_accessor :relative_account_id, :following
+
   def twitter
     @twitter ||= authorizations.where(provider: :twitter).last
   end
 
+  def twitter_client
+    return if twitter.nil?
+
+    @twitter_client ||= Twitter::REST::Client.new do |config|
+      config.consumer_key        = ENV['TWITTER_CLIENT_ID']
+      config.consumer_secret     = ENV['TWITTER_CLIENT_SECRET']
+      config.access_token        = twitter.token
+      config.access_token_secret = twitter.secret
+    end
+  end
+
   def mastodon
     @mastodon ||= authorizations.where(provider: :mastodon).last
+  end
+
+  def mastodon_client
+    return if mastodon.nil?
+
+    @mastodon_client ||= Mastodon::REST::Client.new(base_url: "https://#{mastodon.domain}", bearer_token: mastodon.token)
   end
 
   class << self

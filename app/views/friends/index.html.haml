@@ -11,6 +11,8 @@
       = link_to user.mastodon.info['url'] || user.mastodon.profile_url, class: 'user-card' do
         .avatar
           = image_tag user.mastodon.info['avatar'] unless user.mastodon.info['avatar'].blank?
+        - if user.following
+          .following-indicator= fa_icon('check')
         .name
           %span.display-name= user.mastodon.info['display_name'].presence || user.mastodon.info['username'] || user.mastodon.display_name
           %span.username= "@#{user.mastodon.uid}"

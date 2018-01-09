@@ -455,7 +455,7 @@ h4 {
   max-width: 300px;
   width: calc(50% - 10px);
   margin-right: 10px;
-  
+
   &:nth-child(even) {
     margin-right: 0;
   }
@@ -492,7 +492,16 @@ h4 {
   align-items: center;
   flex: 1 1 auto;
   max-width: 300px;
+  width: calc(50% - 10px);
   margin-bottom: 20px;
+  margin-right: 10px;
+  position: relative;
+  box-sizing: border-box;
+  padding: 10px;
+
+  &:nth-child(even) {
+    margin-right: 0;
+  }
 
   .avatar {
     width: 60px;
@@ -508,6 +517,20 @@ h4 {
       height: 100%;
       border-radius: 50%;
     }
+  }
+
+  .following-indicator {
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    background: $vibrant;
+    color: $white;
+    text-align: center;
+    border-radius: 50%;
+    font-size: 16px;
+    line-height: 25px;
+    bottom: 5px;
+    box-shadow: 3px -3px 6px rgba(#000, 0.3);
   }
 
   .name {
