@@ -7,6 +7,15 @@
   %p.lead Well, this is unfortunate. Looks like none of your Twitter friends are on Mastodon yet. Or maybe they are, but haven't signed in to this bridge service.
 - else
   .grid
+    - @friends.each do |user|
+      = link_to user.mastodon.info['url'] || user.mastodon.profile_url, class: 'user-card' do
+        .avatar
+          = image_tag user.mastodon.info['avatar'] unless user.mastodon.info['avatar'].blank?
+        .name
+          %span.display-name= user.mastodon.info['display_name'].presence || user.mastodon.info['username'] || user.mastodon.display_name
+          %span.username= "@#{user.mastodon.uid}"
+
+  .grid
     - @top_instances.each do |instance_info|
       = link_to "https://#{instance_info['uri']}/about", class: 'instance-card', style: "background-image: url(#{instance_info['thumbnail']})" do
         .info
@@ -17,12 +26,3 @@
               = surround '(', ')' do
                 = number_with_delimiter instance_info['stats']['user_count']
                 = 'person'.pluralize(instance_info['stats']['user_count'])
-
-  .grid
-    - @friends.each do |user|
-      = link_to user.mastodon.info['url'] || user.mastodon.profile_url, class: 'user-card' do
-        .avatar
-          = image_tag user.mastodon.info['avatar'] unless user.mastodon.info['avatar'].blank?
-        .name
-          %span.display-name= user.mastodon.info['display_name'].presence || user.mastodon.info['username'] || user.mastodon.display_name
-          %span.username= "@#{user.mastodon.uid}"
