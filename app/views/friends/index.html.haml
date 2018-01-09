@@ -12,10 +12,11 @@
         .info
           %span.title= instance_info['title']
           %span.uri= instance_info['uri']
-          %span.users
-            = surround '(', ')' do
-              = number_with_delimiter instance_info['stats']['user_count']
-              = 'person'.pluralize(instance_info['stats']['user_count'])
+          - if instance_info['stats'].is_a?(Hash)
+            %span.users
+              = surround '(', ')' do
+                = number_with_delimiter instance_info['stats']['user_count']
+                = 'person'.pluralize(instance_info['stats']['user_count'])
 
   .grid
     - @friends.each do |user|
