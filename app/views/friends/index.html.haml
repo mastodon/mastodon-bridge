@@ -1,30 +1,21 @@
 .page-heading
   %h3
     Your friends
-    %small Here are your Twitter friends who are on Mastodon
+    %small Here are your Twitter friends who are on Mastodon:
 
 - if @friends.empty?
-  %p.lead Well, this is unfortunate. Looks like none of your Twitter friends are on Mastodon yet. Or maybe they are, but haven't signed in to this bridge service.
-- else
-  .grid
-    - @friends.each do |user|
-      = link_to user.mastodon.info['url'] || user.mastodon.profile_url, class: 'user-card' do
-        .avatar
-          = image_tag user.mastodon.info['avatar'] unless user.mastodon.info['avatar'].blank?
-        - if user.following
-          .following-indicator= fa_icon('check')
-        .name
-          %span.display-name= user.mastodon.info['display_name'].presence || user.mastodon.info['username'] || user.mastodon.display_name
-          %span.username= "@#{user.mastodon.uid}"
+  %p.empty-message Well, this is unfortunate. Looks like none of your Twitter friends are on Mastodon yet. Or maybe they are, but haven't signed in to this bridge service.
 
-  .grid
-    - @top_instances.each do |instance_info|
-      = link_to "https://#{instance_info['uri']}/about", class: 'instance-card', style: "background-image: url(#{instance_info['thumbnail']})" do
-        .info
-          %span.title= instance_info['title']
-          %span.uri= instance_info['uri']
-          - if instance_info['stats'].is_a?(Hash)
-            %span.users
-              = surround '(', ')' do
-                = number_with_delimiter instance_info['stats']['user_count']
-                = 'person'.pluralize(instance_info['stats']['user_count'])
+  - if current_user.mastodon.nil?
+    %p.empty-message Here are some instances you could choose to make your account on:
+  - else
+    %p.empty-message Here are some instances you could recommend to your friends:
+- else
+  = render 'friends_grid', friends: @friends
+
+  .page-heading
+    %h3
+      Your friends' instances
+      %small Here are the instances your friends are using:
+
+= render 'instances_grid', instances: @top_instances

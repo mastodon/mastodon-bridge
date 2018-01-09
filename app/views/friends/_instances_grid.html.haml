@@ -1,0 +1,11 @@
+.grid
+  - instances.each do |instance_info|
+    = link_to "https://#{instance_info['uri']}/about", class: 'instance-card', style: "background-image: url(#{instance_info['thumbnail']})" do
+      .info
+        %span.title= instance_info['title']
+        %span.uri= instance_info['uri']
+        - if instance_info['stats'].is_a?(Hash)
+          %span.users
+            = surround '(', ')' do
+              = number_with_delimiter instance_info['stats']['user_count']
+              = 'person'.pluralize(instance_info['stats']['user_count'])

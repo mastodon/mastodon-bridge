@@ -24,13 +24,33 @@ class FriendsController < ApplicationController
   end
 
   def set_top_instances
-    @top_instances = @friends.collect { |user| user&.mastodon&.uid }
-                             .compact
-                             .map { |uid| uid.split('@').last }
-                             .inject(Hash.new(0)) { |h, k| h[k] += 1; h }
-                             .sort_by { |k, v| -v }
-                             .map { |k, _| fetch_instance_info(k) }
-                             .compact
+    @top_instances = friends_domains.map { |k, _| fetch_instance_info(k) }.compact
+  end
+
+  def friends_domains
+    return default_domains.sample(4) if @friends.empty?
+
+    @friends.collect { |user| user&.mastodon&.uid }
+            .compact
+            .map { |uid| uid.split('@').last }
+            .inject(Hash.new(0)) { |h, k| h[k] += 1; h }
+            .sort_by { |k, v| -v }
+  end
+
+  def default_domains
+    %w(
+      octodon.social
+      mastodon.art
+      niu.moe
+      todon.nl
+      soc.ialis.me
+      scifi.fyi
+      hostux.social
+      mstdn.maud.io
+      mastodon.sdf.org
+      x0r.be
+      toot.cafe
+    )
   end
 
   def twitter_friend_ids
