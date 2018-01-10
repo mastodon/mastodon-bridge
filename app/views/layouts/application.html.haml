@@ -2,12 +2,21 @@
 %html
   %head
     %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
-    %title Mastodon Bridge
+    %title Find your Twitter friends on Mastodon - Mastodon Bridge
 
     = csrf_meta_tags
     = stylesheet_link_tag 'application', media: 'all'
     = javascript_include_tag 'application'
 
+    %meta{ property: 'og:type', content: 'article' }/
+    %meta{ property: 'og:title', content: 'Find your Twitter friends on Mastodon' }/
+    %meta{ property: 'og:description', content: 'This bridge tool matches you with your friends in the decentralized Mastodon network' }/
+    %meta{ property: 'og:image', content: image_url('preview.jpg') }/
+    %meta{ property: 'og:url', content: root_url }/
+    %meta{ property: 'og:site_name', content: 'Mastodon Bridge' }/
+
+    %meta{ name: 'twitter:card', content: 'summary' }/
+    %meta{ name: 'twitter:site', content: '@MastodonProject' }/
   %body
     .header
       %ul.left
@@ -38,8 +47,8 @@
 
     %p.footer
       This website is run by
-      %a{:href => "https://mastodon.social/@Gargron"} @Gargron@mastodon.social
+      %a{:href => "https://mastodon.social/@Mastodon"} @Mastodon@mastodon.social
       \/
       = succeed "." do
-        %a{:href => "https://twitter.com/Gargron"} @Gargron
+        %a{:href => "https://twitter.com/MastodonProject"} @MastodonProject
       %a{:href => "https://github.com/tootsuite/mastodon-bridge", :target => "_blank"} Source code
