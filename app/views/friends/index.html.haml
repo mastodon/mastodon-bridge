@@ -1,7 +1,12 @@
-.page-heading
+.page-heading{ class: current_user.mastodon.nil? ? 'bottomless' : '' }
   %h3
     Your friends
     %small Here are your Twitter friends who are on Mastodon:
+
+- if current_user.mastodon.nil?
+  .connect-prompt
+    For your friends to find you as well, you still need to
+    = link_to 'login via Mastodon', user_mastodon_omniauth_authorize_path
 
 - if @friends.empty?
   %p.empty-message Well, this is unfortunate. Looks like none of your Twitter friends are on Mastodon yet. Or maybe they are, but haven't signed in to this bridge service.

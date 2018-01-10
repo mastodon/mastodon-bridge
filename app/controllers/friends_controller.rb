@@ -85,6 +85,8 @@ class FriendsController < ApplicationController
 
   def fetch_account_id(user)
     user.tap do |user|
+      next if current_user.mastodon.nil?
+
       begin
         user.relative_account_id = Rails.cache.fetch("#{current_user.id}/#{current_user.mastodon.domain}/#{user.mastodon.uid}", expires_in: 1.week) do
           account, _ = current_user.mastodon_client.perform_request(:get, '/api/v1/accounts/search', q: user.mastodon.uid, resolve: 'true', limit: 1)
@@ -92,7 +94,7 @@ class FriendsController < ApplicationController
           account['id']
         end
       rescue Mastodon::Error, HTTP::Error, OpenSSL::SSL::SSLError
-        user.relative_account_id = nil
+        next
       end
     end
   end

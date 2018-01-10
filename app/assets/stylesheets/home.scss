@@ -311,6 +311,10 @@ h4 {
   margin-bottom: 30px;
   border-radius: 10px;
 
+  &.bottomless {
+    border-radius: 10px 10px 0 0;
+  }
+
   h3 {
     font-family: 'Montserrat', sans-serif;
     font-size: 26px;
@@ -567,5 +571,20 @@ h4 {
     text-transform: uppercase;
     font-weight: 500;
     text-decoration: none;
+  }
+}
+
+.connect-prompt {
+  background: $vibrant;
+  margin-top: -30px;
+  margin-bottom: 30px;
+  color: $white;
+  padding: 10px;
+  border-radius: 0 0 5px 5px;
+  text-align: center;
+
+  a {
+    color: $white;
+    font-weight: 500;
   }
 }
