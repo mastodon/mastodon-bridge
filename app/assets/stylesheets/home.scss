@@ -513,6 +513,7 @@ h4 {
     background: darken($darkest, 4%);
     border-radius: 50%;
     overflow: hidden;
+    flex-shrink: 0;
 
     img {
       display: block;
@@ -539,6 +540,9 @@ h4 {
 
   .name {
     margin-left: 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .display-name {
