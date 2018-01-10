@@ -250,15 +250,18 @@ Devise.setup do |config|
   config.omniauth :twitter, ENV['TWITTER_CLIENT_ID'], ENV['TWITTER_CLIENT_SECRET']
 
   config.omniauth :mastodon, scope: 'read follow', credentials: lambda { |domain, callback_url|
-    client = MastodonClient.where(domain: domain).first_or_initialize(domain: domain)
+    client = MastodonClient.where(domain: domain).first
 
-    return [client.client_id, client.client_secret] unless client.new_record?
+    if client.nil?
+      client = MastodonClient.obtain!(domain, callback_url)
+    else
+      still_valid = Rails.cache.fetch("client-status/#{client.id}") { client.still_valid? }
 
-    new_client = Mastodon::REST::Client.new(base_url: "https://#{domain}").create_app('Mastodon Bridge', callback_url, 'read follow')
-
-    client.client_id = new_client.client_id
-    client.client_secret = new_client.client_secret
-    client.save
+      unless still_valid
+        client.destroy!
+        client = MastodonClient.obtain!(domain, callback_url)
+      end
+    end
 
     [client.client_id, client.client_secret]
   }
