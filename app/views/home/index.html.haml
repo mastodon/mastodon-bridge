@@ -1,7 +1,10 @@
 .page-heading
   %h3
-    Find your friends
+    Find your friends on Mastodon
     %small Login via Twitter to get started
+
+= link_to 'https://joinmastodon.org', class: 'hero-link' do
+  = image_tag 'preview.jpg', alt: 'Elephant friend, paperplanes and a trombone with the Mastodon logo in the center'
 
 .login-buttons
   = content_tag twitter? ? :div : :a, href: user_twitter_omniauth_authorize_path, class: 'twitter' do
@@ -9,7 +12,7 @@
     .login-content
       .login-numbers
         %strong= number_with_delimiter @twitter_count
-        accounts
+        connected
       - if twitter?
         .login-name
           %strong= current_user.twitter.display_name.presence || current_user.twitter.uid
@@ -22,7 +25,7 @@
     .login-content
       .login-numbers
         %strong= number_with_delimiter @mastodon_count
-        accounts
+        connected
       - if mastodon?
         .login-name
           %strong= current_user.mastodon.display_name.presence || current_user.mastodon.uid

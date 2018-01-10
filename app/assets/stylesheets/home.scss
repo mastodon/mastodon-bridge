@@ -588,3 +588,20 @@ h4 {
     font-weight: 500;
   }
 }
+
+.hero-link {
+  display: block;
+  text-decoration: none;
+  color: $white;
+
+  img {
+    width: 100%;
+    height: auto;
+    display: block;
+    margin: 0;
+  }
+
+  margin-bottom: 30px;
+  border-radius: 10px;
+  overflow: hidden;
+}
