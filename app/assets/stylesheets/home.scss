@@ -557,3 +557,15 @@ h4 {
 .empty-message {
   margin-bottom: 20px;
 }
+
+.pagination {
+  text-align: center;
+  margin-bottom: 20px;
+
+  a {
+    display: inline-block;
+    text-transform: uppercase;
+    font-weight: 500;
+    text-decoration: none;
+  }
+}

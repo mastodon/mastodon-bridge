@@ -13,6 +13,17 @@
 - else
   = render 'friends_grid', friends: @friends
 
+  - if @next_page || @page > 1
+    .pagination
+      - if @page > 1
+        = link_to friends_path(page: @page - 1) do
+          = fa_icon('chevron-left fw')
+          Previous
+      - if @next_page
+        = link_to friends_path(page: @next_page) do
+          Next
+          = fa_icon('chevron-right fw')
+
   .page-heading
     %h3
       Your friends' instances
