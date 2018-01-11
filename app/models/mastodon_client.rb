@@ -17,7 +17,7 @@ class MastodonClient < ApplicationRecord
   def client_token
     return attributes['client_token'] if attributes['client_token'].present?
 
-    res = HTTP.post("https://#{domain}/oauth/token", params: {
+    res = http_client.post("https://#{domain}/oauth/token", params: {
       grant_type: 'client_credentials',
       client_id: client_id,
       client_secret: client_secret,
@@ -34,7 +34,13 @@ class MastodonClient < ApplicationRecord
   def still_valid?
     return false if client_token.blank?
 
-    res = HTTP.get("https://#{domain}/api/v1/apps/verify_credentials", headers: { 'Authorization': "Bearer #{client_token}" })
+    res = http_client.get("https://#{domain}/api/v1/apps/verify_credentials", headers: { 'Authorization': "Bearer #{client_token}" })
     res.code == 200
+  end
+
+  private
+
+  def http_client
+    HTTP.timeout(:per_operation, connect: 2, read: 5, write: 5)
   end
 end

@@ -12,7 +12,7 @@ gem 'jquery-rails'
 gem 'uglifier'
 
 gem 'bootsnap'
-gem 'mastodon-api', require: 'mastodon'
+gem 'mastodon-api', require: 'mastodon', git: 'https://github.com/tootsuite/mastodon-api'
 gem 'twitter', git: 'https://github.com/sferik/twitter'
 gem 'devise', '~> 4.3'
 gem 'omniauth-twitter'

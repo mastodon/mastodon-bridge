@@ -5,11 +5,10 @@ class User < ApplicationRecord
 
   has_many :authorizations
 
-  attr_accessor :relative_account_id, :following
+  has_one :twitter,  -> { where(provider: 'twitter') },  class_name: 'Authorization'
+  has_one :mastodon, -> { where(provider: 'mastodon') }, class_name: 'Authorization'
 
-  def twitter
-    @twitter ||= authorizations.where(provider: :twitter).last
-  end
+  attr_accessor :relative_account_id, :following
 
   def twitter_client
     return if twitter.nil?
@@ -20,10 +19,6 @@ class User < ApplicationRecord
       config.access_token        = twitter.token
       config.access_token_secret = twitter.secret
     end
-  end
-
-  def mastodon
-    @mastodon ||= authorizations.where(provider: :mastodon).last
   end
 
   def mastodon_client

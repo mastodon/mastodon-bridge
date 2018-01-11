@@ -33,7 +33,7 @@ class FriendsController < ApplicationController
 
   def set_friends
     @friends = User.where(id: Authorization.where(provider: :twitter, uid: twitter_friend_ids).map(&:user_id))
-                   .includes(:authorizations)
+                   .includes(:twitter, :mastodon)
                    .reject { |user| user.mastodon.nil? }
   end
 
